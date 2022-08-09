@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="202208051800" author="andryev.lemes">
+        <createSequence sequenceName="USERS_SEQ" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="202208051802" author="andryev.lemes">
+        <createTable tableName="USERS">
+            <column name="ID" type="BIGINT" defaultValueComputed="nextval('USERS_SEQ')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR(10000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ROLE" type="VARCHAR(12)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="ID"
+                       constraintName="USERS_PK"
+                       tableName="USERS"/>
+    </changeSet>
+
+    <changeSet id="202208051849" author="andryev.lemes">
+        <createTable tableName="MOVIE">
+            <column name="ID" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="RANK" type="INTEGER"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="FULL_TITLE" type="VARCHAR(256)"/>
+            <column name="YEAR" type="INTEGER"/>
+            <column name="IMAGE" type="VARCHAR(512)"/>
+            <column name="CREW" type="VARCHAR(512)"/>
+            <column name="IMDB_RATING" type="DOUBLE"/>
+            <column name="IMDB_RATING_COUNT" type="BIGINT"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID"
+                       constraintName="MOVIE_PK"
+                       tableName="MOVIE"/>
+    </changeSet>
+
+    <changeSet id="202208051854" author="andryev.lemes">
+        <createSequence sequenceName="GAME_SEQ" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="202208051855" author="andryev.lemes">
+        <createTable tableName="GAME">
+            <column name="ID" type="BIGINT" defaultValueComputed="nextval('GAME_SEQ')">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID_USER" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS" type="VARCHAR(12)"/>
+            <column name="MISTAKES" type="INTEGER"/>
+            <column name="WINS" type="INTEGER"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID"
+                       constraintName="GAME_PK"
+                       tableName="GAME"/>
+        <addForeignKeyConstraint baseTableName="GAME"
+                                 baseColumnNames="ID_USER"
+                                 constraintName="USER_ID_GAME_FK"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+
+    <changeSet id="202208051858" author="andryev.lemes">
+        <createTable tableName="ROUND">
+            <column name="ID_USER" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="GAME_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID_MOVIE_A" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID_MOVIE_B" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATUS" type="VARCHAR(12)"/>
+            <column name="CHOICE" type="VARCHAR(12)"/>
+            <column name="CHOICE_WIN" type="VARCHAR(12)"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID_USER, ID_MOVIE_A, ID_MOVIE_B"
+                       constraintName="ROUND_PK"
+                       tableName="ROUND"/>
+
+        <addForeignKeyConstraint baseTableName="ROUND"
+                                 baseColumnNames="ID_USER"
+                                 constraintName="USER_ID_ROUND_FK"
+                                 referencedTableName="USERS"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROUND"
+                                 baseColumnNames="ID_MOVIE_A"
+                                 constraintName="MOVIE_A_ROUND_FK"
+                                 referencedTableName="MOVIE"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROUND"
+                                 baseColumnNames="ID_MOVIE_B"
+                                 constraintName="MOVIE_B_ROUND_FK"
+                                 referencedTableName="MOVIE"
+                                 referencedColumnNames="ID"/>
+
+        <addForeignKeyConstraint baseTableName="ROUND"
+                                 baseColumnNames="GAME_ID"
+                                 constraintName="GAME_ROUND_FK"
+                                 referencedTableName="GAME"
+                                 referencedColumnNames="ID"/>
+    </changeSet>
+
+
+
+
+</databaseChangeLog>

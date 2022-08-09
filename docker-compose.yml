@@ -1,0 +1,30 @@
+# Created by Andryev Lemes
+version: '3.2'
+services:
+  postgres_lets:
+    build:
+      context: ./src/main/docker/postgres
+    ports:
+      - 5432:5432
+    container_name: postgres_lets
+    networks:
+      - backend
+  api-lets:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    ports:
+      - 8080:8080
+    container_name: api-lets
+    environment:
+      - POSTGRES_URL=postgres_lets
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_PASSWORD=postgrespass
+      - POSTGRES_DATABASE=letscode_db
+    depends_on:
+      - postgres_lets
+    networks:
+      - backend
+networks:
+  backend:
+    driver: "bridge"

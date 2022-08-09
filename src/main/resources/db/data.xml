@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+
+    <changeSet id="202208051804" author="andryev.lemes">
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USERS_SEQ"/>
+            <column name="USERNAME" value="iam"/>
+            <column name="PASSWORD" value="$2a$10$u1AxL447TR5Gm8vOgJqE1.BevTDL1phpUCCTdE9rUmqWcJt/Nn9au"/>
+            <column name="ROLE" value="USER"/>
+        </insert>
+
+        <insert tableName="USERS">
+            <column name="ID" valueSequenceNext="USERS_SEQ"/>
+            <column name="USERNAME" value="you"/>
+            <column name="PASSWORD" value="$2a$10$4lEmTLd9KOoSoeDb6rbKEeX05T6EKIR7INKASSQ0LKAINdl4DqPrO"/>
+            <column name="ROLE" value="USER"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>
